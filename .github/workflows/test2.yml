@@ -1,0 +1,17 @@
+name: Check Node.js Version
+ 
+on:
+  push:
+    branches:
+      - main
+ 
+jobs:
+  check-node-version:
+    runs-on: ubuntu-latest
+ 
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+ 
+      - name: Check Node.js version
+        run: node -v
