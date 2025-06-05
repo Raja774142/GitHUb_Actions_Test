@@ -1,0 +1,32 @@
+name: Taxonomy File update
+
+on:
+  push:
+    paths:
+      - Taxonomy/Rev_procedure.json
+
+jobs:
+  process-file:
+    runs-on: self-hosted
+
+    steps:
+      - name: Stop prideviewservice
+        run: sudo systemctl stop prideview
+
+      - name: Backup procedure.json
+        run: |
+          TIMESTAMP=$(date +%Y%m%d%H%M%S)
+          sudo cp /usr/local/pride/view/code/tags/procedure.json /usr/local/pride/view/code/tags/procedure_$TIMESTAMP.json
+
+      - name: Copy new file to server
+        run: |
+          sudo cp test/Rev_procedure.json /usr/local/pride/view/code/tags/Rev_procedure.json
+          sudo cp /usr/local/pride/view/code/tags/Rev_procedure.json /usr/local/pride/view/code/tags/procedure.json
+
+      - name: Set file permissions
+        run: |
+          sudo chmod 664 /usr/local/pride/view/code/tags/procedure.json
+          sudo chown prideview:pride /usr/local/pride/view/code/tags/procedure.json
+
+      - name: Restart myservice
+        run: sudo systemctl restart prideview
