@@ -1,0 +1,32 @@
+name: Taxonomy File update
+
+on:
+  push:
+    paths:
+      - Working_Node/node.txt
+
+jobs:
+  process-file:
+    runs-on: self-hosted
+
+    steps:
+      - name: Stop prideviewservice
+        run: sudo systemctl stop prideview
+
+      - name: Backup myfile
+        run: |
+          TIMESTAMP=$(date +%Y%m%d%H%M%S)
+          sudo cp /working_test/myfile.txt /working_test_$TIMESTAMP.txt
+
+      - name: Copy new file to server
+        run: |
+          sudo cp Working_Node/node.txt /working_test
+          sudo cp /working_test/node.txt /working_test/myfile.txt
+
+      - name: Set file permissions
+        run: |
+          sudo chmod 664 /working_test/myfile.txt
+          sudo chown root:root /working_test/myfile.txt
+
+      - name: Restart myservice
+        run: sudo systemctl restart prideview
