@@ -21,8 +21,8 @@ jobs:
         run: |
           # Backup the current file.txt as file.txt.bak (add timestamp if needed)
           TIMESTAMP=$(date +%Y%m%d%H%M%S)
-          sudo cp /working_test/file.txt /working_test/file_$TIMESTAMP.txt.bak
+          sudo cp /working_test/myfile.txt /working_test/myfile_$TIMESTAMP.txt.bak
 
       - name: Replace file.txt with node.txt
         run: |
-          sudo mv /working_test/node.txt /working_test/file.txt          
+          sudo mv /working_test/node.txt /working_test/myfile.txt          
