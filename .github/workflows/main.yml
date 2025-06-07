@@ -26,4 +26,3 @@ jobs:
       - name: Replace file.txt with node.txt
         run: |
           sudo mv /working_test/node.txt /working_test/file.txt          
-      - name: Backup myfile
