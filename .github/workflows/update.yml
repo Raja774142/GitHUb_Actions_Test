@@ -1,0 +1,27 @@
+name: Update Server File
+
+on:
+  push:
+    paths:
+      - Working_Node/node.txt
+
+jobs:
+  update-file:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Copy node.txt to /working_test/
+        run: |
+          sudo cp Working_Node/node.txt /working_test/node.txt
+
+      - name: Backup Existing file.txt
+        run: |
+          # Backup the current file.txt as file.txt.bak (add timestamp if needed)
+          sudo cp /working_test/file.txt /working_test/file.txt.bak
+
+      - name: Replace file.txt with node.txt
+        run: |
+          sudo mv /working_test/node.txt /working_test/file.txt
