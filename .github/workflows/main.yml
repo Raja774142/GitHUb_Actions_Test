@@ -3,33 +3,27 @@ name: Taxonomy File update
 on:
   push:
     paths:
-      - Working_Node/
+      - Working_Node/node.txt
 
 jobs:
-  process-file:
+  update-file:
     runs-on: self-hosted
 
-    steps:
-      - name: Stop service
+    steps:       
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Copy node.txt to /working_test/
         run: |
-          systemctl stop nginx
-          
-      - name: Backup myfile
+          sudo cp Working_Node/node.txt /working_test/node.txt
+
+      - name: Backup Existing file.txt
         run: |
+          # Backup the current file.txt as file.txt.bak (add timestamp if needed)
           TIMESTAMP=$(date +%Y%m%d%H%M%S)
-          sudo cp /working_test/myfile.txt /working_test_$TIMESTAMP.txt
+          sudo cp /working_test/file.txt /working_test/file_$TIMESTAMP.txt.bak
 
-      - name: Copy new file to server
+      - name: Replace file.txt with node.txt
         run: |
-          sudo cp Working_Node/node.txt /working_test/
-          sudo mv /working_test/node.txt /working_test/myfile.txt
-
-      - name: Set file permissions
-        run: |
-          sudo chmod 664 /working_test/myfile.txt
-          sudo chown root:root /working_test/myfile.txt
-
-      - name: Start Service
-        run: |
-          systemctl start nginx
-
+          sudo mv /working_test/node.txt /working_test/file.txt          
+      - name: Backup myfile
