@@ -20,7 +20,7 @@ jobs:
       - name: Backup Existing file.txt
         run: |
           # Backup the current file.txt as file.txt.bak (add timestamp if needed)
-          TIMESTAMP=$(date +%Y%m%d%H%M%S)
+          "TIMESTAMP=$(date +%Y%m%d%H%M%S)"
           sudo cp /working_test/myfile.txt /working_test/myfile_$TIMESTAMP.txt.bak
 
       - name: Replace file.txt with node.txt
